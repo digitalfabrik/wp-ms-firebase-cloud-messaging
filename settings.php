@@ -7,6 +7,7 @@ function firebase_notification_settings () {
 		update_blog_option( $blog_id, 'fbn_api_url', $_POST['fbn_api_url'] );
 		update_blog_option( $blog_id, 'fbn_use_network_settings', $_POST['fbn_use_network_settings'] );
 		update_blog_option( $blog_id, 'fbn_groups', $_POST['fbn_groups'] );
+		update_blog_option( $blog_id, 'fbn_title_prefix', $_POST['fbn_title_prefix'] );
 		echo "<div class='notice notice-success'><p>".__('Settings saved.', 'firebase-notifications')."</p></div>";
 	}
 	echo firebase_notification_settings_form();

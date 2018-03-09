@@ -25,6 +25,9 @@ ob_start();
 					</fieldset>
 				</td>
 			</tr>
+			<tr>
+				<td>Title Prefix</td><td><input type='text' name='fbn_title_prefix' value='<?php echo $settings['fbn_title_prefix']; ?>' size='100'></td>
+			</tr>
 		</table>
 		<button><?php echo __('Save'); ?></button>
 	</form>
