@@ -90,10 +90,9 @@ class FirebaseNotificationsService {
 				'body' => $body
 			),
 			'data' => array (
-				'title' => $title,
-				'body' => $body,
-				'city' => (string)get_current_blog_id(),
-				'lanCode' => $language
+				'language_code' => $language,
+				'blog_id' => $blog_id,
+				'group' => $group
 			),
 			'apns' => array(
 				'headers' => array(
@@ -107,9 +106,9 @@ class FirebaseNotificationsService {
 			),
 			'android' => array(
 				'ttl' => '86400s'
-			),
-			'to' => '/topics/' . ($this->settings['per_blog_topic'] == '1' ? (string)$blog_id . "-" . $language . "-" : "") . $group
-		 );
+			)
+		);
+		$fields = apply_filters( 'fcm_fields', $fields);
 		return json_encode ( $fields );
 	}
 
