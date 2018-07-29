@@ -2,16 +2,18 @@
 /**
  * Plugin Name: FCM Notifications
  * Description: Sending FCM Messages to Smartphones with WPML support
- * Version: 1.0
+ * Version: 2.0
  * Author: Sven Seeberg
  * Author URI: https://github.com/sven15
  * License: MIT
  * Text Domain: firebase-notifications
  */
 
-require_once __DIR__ . '/service.php';
 require_once __DIR__ . '/notifications.php';
 require_once __DIR__ . '/settings.php';
+
+require_once __DIR__ . 'classes/service.php';
+require_once __DIR__ . 'classes/database.php';
 
 
 function fb_pn_menu() {
