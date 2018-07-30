@@ -54,20 +54,58 @@ class wp_ms_fcm_database {
         }
     }
 
+    /**
+     * Starting point for database initialization. Checks for previously installed
+     * plugin versions and calls table creation functions, depending on multisite setup.
+     */
     public function install_database() {
-        $version = get_site_option('wp-ms-fcm-db-version');
-
-        if( False == $version && is_multisite() ) {
-            // Upgrade from version 1.0 or new installation on multisite
-            add_site_option( 'wp-ms-fcm-db-version',  '2.0' );
-            $this->create_tables_v_2_0_mu();
-        } elseif( False == $version && !is_multisite() ) {
-            // Upgrade from version 1.0 or new installation on single site
-            add_option( 'wp-ms-fcm-db-version',  '2.0' );
-            $this->create_tables_v_2_0();
+        if( is_multisite() ) {
+            $version = get_site_option( 'wp-ms-fcm-db-version' );
+            if( False == $version ) {
+                // Upgrade from version 1.0 or new installation on multisite
+                $this->create_tables_v_2_0_mu();
+            } else {
+                return new WP_Error( 'Unknown WP FCM database version.', $version );
+            }
         } else {
-            die("Unkown Database Version!")
+            $version = get_option( 'wp-ms-fcm-db-version' );
+            if( False == $version ) {
+                // Upgrade from version 1.0 or new installation for single blog
+                $this->create_tables_v_2_0();
+            } else {
+                return new WP_Error( 'Unknown WP FCM database version.', $version );
+            }
         }
+        return true;
+    }
+
+    /**
+     * Retrieve FCM messages from database for current blog.
+     *
+     * @param array $args contains filters for query
+     * @return array
+     */
+    public function get_fcm_messages( $args = array() ) {
+        global $wpdb;
+        $defaults = array(
+            'order' => 'DESC',
+            'orderby' => 'timestamp',
+            'limit' => False
+        );
+        $args = wp_parse_args( $args, $defaults );
+        $query = "SELEC * FROM " . $wpdb->prefix . "fcm_messages ";
+        $query .= "ORDER BY " . $args['orderby'] . " " . $args['order'] ( $args['limit'] != False ? " Limit " . $args['limit'] : "");
+        $results = $wpdb->get_results( $query );
+        $return = array();
+        foreach( $results as $item ) {
+            $return[] = array(
+                'id' => $item->id,
+                'request' => json_decode( $item->sent_message, true ),
+                'answer' => json_decode( $item->returned_message, true ),
+                'timestamp' => $item->timestamp
+            )
+        }
+        return $return;
     }
 }
 
