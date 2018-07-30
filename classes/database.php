@@ -3,6 +3,7 @@
 class FirebaseNotificationsDatabase {
     function __construct() {
         // nothing right now
+        $this->last_status = False;
     }
 
     /**
@@ -24,9 +25,10 @@ class FirebaseNotificationsDatabase {
                         PRIMARY KEY (`id`)
                     ) $charset_collate;";
             if ($wpdb->query( $sql ) ) {
-                // nothing
+                $this->last_status = true;
             } else {
-                return new WP_Error( 'Cannot create database table', $query );
+                $this->last_status = new WP_Error( 'Cannot create database table', $query );
+                return $this->last_status;
             }
         }
     }
@@ -48,9 +50,11 @@ class FirebaseNotificationsDatabase {
             PRIMARY KEY (`id`)
         ) $charset_collate;";
         if ($wpdb->query( $sql ) ) {
-            // nothing
+            $this->last_status = true;
+            return $this->last_status;
         } else {
-            return new WP_Error( 'Cannot create database table', $query );
+            $this->last_status = new WP_Error( 'Cannot create database table', $query );
+            return $this->last_status;
         }
     }
 
@@ -60,23 +64,25 @@ class FirebaseNotificationsDatabase {
      */
     public function install_database() {
         if( is_multisite() ) {
-            $version = get_site_option( 'wp-ms-fcm-db-version' );
+            $version = get_site_option( 'fbn_db_version' );
             if( False == $version ) {
                 // Upgrade from version 1.0 or new installation on multisite
-                add_site_option( 'wp-ms-fcm-db-version', '2.0');
+                add_site_option( 'fbn_db_version', '2.0');
                 self::create_tables_v_2_0_mu();
             elseif( )
             } else {
-                return new WP_Error( 'Unknown WP FCM database version.', $version );
+                $this->last_status = WP_Error( 'Unknown WP FCM database version.', $version );
+                return $this->last_status; 
             }
         } else {
-            $version = get_option( 'wp-ms-fcm-db-version' );
+            $version = get_option( 'fbn_db_version' );
             if( False == $version ) {
                 // Upgrade from version 1.0 or new installation for single blog
-                add_option( 'wp-ms-fcm-db-version', '2.0');
+                add_option( 'fbn_db_version', '2.0');
                 self::create_tables_v_2_0();
             } else {
-                return new WP_Error( 'Unknown WP FCM database version.', $version );
+                $this->last_status = WP_Error( 'Unknown WP FCM database version.', $version );
+                return $this->last_status; 
             }
         }
         return true;
@@ -98,7 +104,11 @@ class FirebaseNotificationsDatabase {
         $args = wp_parse_args( $args, $defaults );
         $query = "SELEC * FROM " . $wpdb->prefix . "fcm_messages ";
         $query .= "ORDER BY " . $args['orderby'] . " " . $args['order'] ( $args['limit'] != False ? " Limit " . $args['limit'] : "");
-        $results = $wpdb->get_results( $query );
+        if($results = $wpdb->get_results( $query )) {
+            $this->last_status = true;
+        } else {
+            $this->last_status = false;
+        }
         $return = array();
         foreach( $results as $item ) {
             $return[] = array(
