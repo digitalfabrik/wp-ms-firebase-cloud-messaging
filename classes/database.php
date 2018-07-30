@@ -85,7 +85,7 @@ class wp_ms_fcm_database {
      * @param array $args contains filters for query
      * @return array
      */
-    public function get_fcm_messages( $args = array() ) {
+    public function get_messages( $args = array() ) {
         global $wpdb;
         $defaults = array(
             'order' => 'DESC',
@@ -106,6 +106,24 @@ class wp_ms_fcm_database {
             )
         }
         return $return;
+    }
+
+    /**
+     * Save a FCM message with answer in the database.
+     *
+     * @param string $request JSON sent to the FCM REST API
+     * @param string $answer JSON returned by the FCM REST API
+     *
+     * @return boolean of success
+     */
+    public function save_message( $request, $answer ) {
+        global $wpdb;
+        $query = "INSERT INTO " . $wpdb->prefix . "fcm_messages (sent_message, returned_message) VALUES ('" . $request . "', '" . $answer . "')";
+        if( $wpdb->query($query) ) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
 
