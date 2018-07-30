@@ -1,6 +1,6 @@
 <?php
 
-class wp_ms_fcm_database {
+class FirebaseNotificationsDatabase {
     function __construct() {
         // nothing right now
     }
@@ -63,7 +63,9 @@ class wp_ms_fcm_database {
             $version = get_site_option( 'wp-ms-fcm-db-version' );
             if( False == $version ) {
                 // Upgrade from version 1.0 or new installation on multisite
-                $this->create_tables_v_2_0_mu();
+                add_site_option( 'wp-ms-fcm-db-version', '2.0');
+                self::create_tables_v_2_0_mu();
+            elseif( )
             } else {
                 return new WP_Error( 'Unknown WP FCM database version.', $version );
             }
@@ -71,7 +73,8 @@ class wp_ms_fcm_database {
             $version = get_option( 'wp-ms-fcm-db-version' );
             if( False == $version ) {
                 // Upgrade from version 1.0 or new installation for single blog
-                $this->create_tables_v_2_0();
+                add_option( 'wp-ms-fcm-db-version', '2.0');
+                self::create_tables_v_2_0();
             } else {
                 return new WP_Error( 'Unknown WP FCM database version.', $version );
             }
