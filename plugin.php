@@ -36,6 +36,7 @@ function firebase_notifications_settings() {
 	$settings['fbn_api_url'] = 'https://fcm.googleapis.com/fcm/send';
 	$settings['fbn_use_network_settings'] = '1'; //0 use blog settings; 1 use network settings
 	$settings['fbn_groups'] = 'news';
+	$settings['fbn_debug'] = '0';
 	$settings['fbn_title_prefix'] = '';
 	return $settings;
 }
@@ -47,6 +48,7 @@ function firebase_notifications_network_settings() {
 	$settings['fbn_force_network_settings'] = '0'; // 0: allow settings for each blog; 1: blogs CAN use network settings; 2: blogs MUST use network settings
 	$settings['fbn_per_blog_topic'] = '1'; //add blog id and wpml language to topic, 1 = add, 0 = only group
 	$settings['fbn_groups'] = 'news';
+	$settings['fbn_debug'] = '0';
 	return $settings;
 }
 

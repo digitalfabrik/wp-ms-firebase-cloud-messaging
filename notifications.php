@@ -74,4 +74,8 @@ function write_firebase_notification_form() {
 	return $header.$tabs.$footer;
 }
 
+function list_prev_fcm_messages( $amount = 10 ) {
+	$fcmdb = New FirebaseNotificationsDatabase();
+}
+
 ?>
