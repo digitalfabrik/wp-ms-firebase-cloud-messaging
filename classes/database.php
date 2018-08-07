@@ -138,6 +138,36 @@ class FirebaseNotificationsDatabase {
             return false;
         }
     }
+
+    /**
+     * Retrieve messages by language.
+     *
+     * @param string $lang language code
+     * @param integer $amount number of messages that are returned
+     * @return array of messages as assoc arrays
+     */
+    public function messages_by_language( $lang = ICL_LANGUAGE_CODE, $amount = 10 ) {
+        $fcmdb = New FirebaseNotificationsDatabase();
+        $args = array(
+            'order' => 'DESC',
+            'orderby' => 'timestamp',
+            'limit' => False
+        );
+        $result = array();
+        $messages = $fcmdb->get_messages( $args );
+        $count = 1;
+        foreach( $messages as $message ){
+            $array = json_decode( $message, true );
+            if( $array['data']['language_code'] == $lang ) {
+                $result[] = $array;
+            }
+            $count ++;
+            if( $count === $amount ) {
+                break;
+            }
+        }
+        return $result;
+    }
 }
 
 ?>
