@@ -74,11 +74,11 @@ function write_firebase_notification_form() {
 	return $header.$tabs.$footer;
 }
 
-function fcm_list_html( $lang ) {
+function fcm_sent_list_html( $lang ) {
 	$fcmdb = New FirebaseNotificationsDatabase();
-	$messages = function messages_by_language( $lang , $amount = 10 );
+	$messages = messages_by_language( $lang , $amount = 10 );
 	foreach( $messages as $message ){
-		
+
 	}
 }
 

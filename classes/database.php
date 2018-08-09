@@ -15,7 +15,7 @@ class FirebaseNotificationsDatabase {
         global $wpdb;
         $all_blogs = get_sites();
         foreach ( $all_blogs as $blog ) {
-            $table_name = $wpdb->base_prefix . $blog->blog_id . "_" . "fcm_messages"
+            $table_name = $wpdb->base_prefix . $blog->blog_id . "_" . "fcm_messages";
             $charset_collate = $wpdb->get_charset_collate();
             $sql = "CREATE TABLE $table_name (
                         `id` INT NOT NULL AUTO_INCREMENT,
@@ -40,7 +40,7 @@ class FirebaseNotificationsDatabase {
      */
     private function create_tables_v_2_0 () {
         global $wpdb;
-        $table_name = $wpdb->prefix . "fcm_messages"
+        $table_name = $wpdb->prefix . "fcm_messages";
         $charset_collate = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE $table_name (
             `id` INT NOT NULL AUTO_INCREMENT,
@@ -69,7 +69,6 @@ class FirebaseNotificationsDatabase {
                 // Upgrade from version 1.0 or new installation on multisite
                 add_site_option( 'fbn_db_version', '2.0');
                 self::create_tables_v_2_0_mu();
-            elseif( )
             } else {
                 $this->last_status = WP_Error( 'Unknown WP FCM database version.', $version );
                 return $this->last_status; 
@@ -116,7 +115,7 @@ class FirebaseNotificationsDatabase {
                 'request' => json_decode( $item->sent_message, true ),
                 'answer' => json_decode( $item->returned_message, true ),
                 'timestamp' => $item->timestamp
-            )
+            );
         }
         return $return;
     }

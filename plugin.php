@@ -12,8 +12,8 @@
 require_once __DIR__ . '/notifications.php';
 require_once __DIR__ . '/settings.php';
 
-require_once __DIR__ . 'classes/service.php';
-require_once __DIR__ . 'classes/database.php';
+require_once __DIR__ . '/classes/service.php';
+require_once __DIR__ . '/classes/database.php';
 
 
 function fb_pn_menu() {
