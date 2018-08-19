@@ -15,24 +15,48 @@ class FirebaseNotificationsDatabase {
         $all_blogs = get_sites();
         foreach ( $all_blogs as $blog ) {
             if( "1" === $blog->blog_id ) {
-                continue;
+                $table_name = $wpdb->base_prefix . "fcm_messages";
+            } else {
+                $table_name = $wpdb->base_prefix . $blog->blog_id . "_" . "fcm_messages";
             }
-            $table_name = $wpdb->base_prefix . $blog->blog_id . "_" . "fcm_messages";
-            $charset_collate = $wpdb->get_charset_collate();
-            $sql = "CREATE TABLE $table_name (
-                        `id` INT NOT NULL AUTO_INCREMENT,
-                        `sent_message` TEXT NOT NULL,
-                        `returned_message` TEXT NOT NULL,
-                        `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
-                        PRIMARY KEY (`id`)
-                    ) $charset_collate;";
-            if ($wpdb->query( $sql ) ) {
+            if ( create_table_v_2_0_mu( $table_name ) ) {
                 $this->last_status = true;
             } else {
                 $this->last_status = new WP_Error( 'Cannot create database table', $query );
                 return $this->last_status;
             }
         }
+    }
+
+    /**
+     * Create database table in multisite configuration.
+     * Tables:
+     * 1) PREFIX_BLOG-ID_sent_fc_messages
+     *
+     * @param string $table_name
+     * @return
+     */
+    private function create_table_v_2_0_mu( $table_name ) {
+        global $wpdb;
+        $charset_collate = $wpdb->get_charset_collate();
+        $sql = "CREATE TABLE $table_name (
+                    `id` INT NOT NULL AUTO_INCREMENT,
+                    `sent_message` TEXT NOT NULL,
+                    `returned_message` TEXT NOT NULL,
+                    `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+                    PRIMARY KEY (`id`)
+                ) $charset_collate;";
+        return $wpdb->query( $sql );
+    }
+
+    /**
+     * Create table for newly created multisite blog.
+     *
+     * @param int $blog_id
+     */
+    public function new_blog( $blog_id ) {
+        global $wpdb;
+        create_table_v_2_0_mu( $wpdb->base_prefix . $blog->blog_id . "_" . "fcm_messages" );
     }
 
     /**
