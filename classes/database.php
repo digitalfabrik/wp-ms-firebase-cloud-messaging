@@ -18,13 +18,12 @@ class FirebaseNotificationsDatabase {
                 continue;
             }
             $table_name = $wpdb->base_prefix . $blog->blog_id . "_" . "fcm_messages";
-            file_put_contents("fcmdb.log", "Create table ".$table_name);
             $charset_collate = $wpdb->get_charset_collate();
             $sql = "CREATE TABLE $table_name (
                         `id` INT NOT NULL AUTO_INCREMENT,
                         `sent_message` TEXT NOT NULL,
                         `returned_message` TEXT NOT NULL,
-                        `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL,
+                        `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                         PRIMARY KEY (`id`)
                     ) $charset_collate;";
             if ($wpdb->query( $sql ) ) {
@@ -44,13 +43,12 @@ class FirebaseNotificationsDatabase {
     private function create_tables_v_2_0 () {
         global $wpdb;
         $table_name = $wpdb->prefix . "fcm_messages";
-        file_put_contents("/var/www/cms/fcmdb.log", "Create table ".$table_name);
         $charset_collate = $wpdb->get_charset_collate();
         $sql = "CREATE TABLE $table_name (
             `id` INT NOT NULL AUTO_INCREMENT,
             `sent_message` TEXT NOT NULL,
             `returned_message` TEXT NOT NULL,
-            `timestamp` TIMESTAMP on update CURRENT_TIMESTAMP NOT NULL,
+            `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
             PRIMARY KEY (`id`)
         ) $charset_collate;";
         if ($wpdb->query( $sql ) ) {
@@ -68,8 +66,7 @@ class FirebaseNotificationsDatabase {
      */
     public function install_database() {
         if( is_multisite() ) {
-            $version = get_site_option( '       ' );
-            file_put_contents("/var/www/cms/fcmdb.log", "Multisite - Detected DB version ".$version);
+            $version = get_site_option( 'fbn_db_version' );
             if( False == $version ) {
                 // Upgrade from version 1.0 or new installation on multisite
                 add_site_option( 'fbn_db_version', '2.0');
@@ -80,7 +77,6 @@ class FirebaseNotificationsDatabase {
             }
         } else {
             $version = get_option( 'fbn_db_version' );
-            file_put_contents("/var/www/cms/fcmdb.log", "Detected DB version ".$version);
             if( False == $version ) {
                 // Upgrade from version 1.0 or new installation for single blog
                 add_option( 'fbn_db_version', '2.0');
