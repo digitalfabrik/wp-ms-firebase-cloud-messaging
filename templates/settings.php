@@ -29,8 +29,8 @@
 			<td><?php echo __('Debug Mode', 'firebase-notifications'); ?></td>
 			<td>
 				<fieldset>
-					<input type='radio' id='on' name='fbn_debug' value='1' <?php echo ($settings['fbn_debug'] == '1' ? " checked='checked'":"" ); ?>><label for='on'> <?php echo __('On'); ?></label>
-					<input type='radio' id='off' name='fbn_debug' value='0' <?php echo ($settings['fbn_debug'] == '0' ? " checked='checked'":"" ); ?>><label for='off'> <?php echo __('Off'); ?></label>
+					<input type='radio' id='on' name='fbn_debug' value='1' <?php echo ($settings['debug'] == '1' ? " checked='checked'":"" ); ?>><label for='on'> <?php echo __('On'); ?></label>
+					<input type='radio' id='off' name='fbn_debug' value='0' <?php echo ($settings['debug'] == '0' ? " checked='checked'":"" ); ?>><label for='off'> <?php echo __('Off'); ?></label>
 				</fieldset>
 			</td>
 		</tr>

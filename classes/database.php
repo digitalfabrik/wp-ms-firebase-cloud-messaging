@@ -2,7 +2,6 @@
 
 class FirebaseNotificationsDatabase {
     function __construct() {
-        // nothing right now
         $this->last_status = False;
     }
 
@@ -77,7 +76,7 @@ class FirebaseNotificationsDatabase {
                 self::create_tables_v_2_0_mu();
             } else {
                 $this->last_status = WP_Error( 'Unknown WP FCM database version.', $version );
-                return $this->last_status; 
+                return $this->last_status;
             }
         } else {
             $version = get_option( 'fbn_db_version' );
@@ -88,7 +87,7 @@ class FirebaseNotificationsDatabase {
                 self::create_tables_v_2_0();
             } else {
                 $this->last_status = WP_Error( 'Unknown WP FCM database version.', $version );
-                return $this->last_status; 
+                return $this->last_status;
             }
         }
         return true;

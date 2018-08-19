@@ -8,8 +8,8 @@ function write_firebase_notification() {
 		foreach( $languages as $key => $value ) {
 			$items[$key]  = array( 'title' => $_POST['pn-title_'.$key], 'message' => $_POST['pn-message_'.$key], 'lang' => $key, 'translate' => $_POST['pn-translate'], 'group' => $_POST['fbn_groups'] );
 		}
-		$myNotification = new FirebaseNotificationsService();
-		$myNotification->translate_send_notifications( $items );
+		$fcm = new FirebaseNotificationsService();
+		$fcm->translate_send_notifications( $items );
 	}
 
 	wp_enqueue_style( 'ig-fb-style-send', plugin_dir_url(__FILE__) . '/css/send.css' );
