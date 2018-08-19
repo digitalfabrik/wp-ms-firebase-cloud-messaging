@@ -43,9 +43,9 @@ class FirebaseNotificationsService {
 	private function send_notification( $title, $body, $language, $group ) {
 		$header = $this->build_header( $this->settings['auth_key'] );
 		$message = $this->build_json( $title, $body, $language, $this->settings['blog_id'], $group );
-		$answer = $this->execute_curl( $this->settings['api_url'], $header, $fields );
+		$answer = $this->execute_curl( $this->settings['api_url'], $header, $message );
 		if( $this->settings['debug'] == "1" ) {
-			echo "<div class='notice notice-warning'><p>".$answer."</p></div>";
+			echo "<div class='notice notice-warning'><p>API Answer: ".$answer."</p></div>";
 		}
 		$this->fcmdb->save_message( $message, $answer );
 
@@ -71,26 +71,28 @@ class FirebaseNotificationsService {
 			$this->settings['api_url'] = get_site_option('fbn_api_url');
 			$this->settings['auth_key'] = get_site_option('fbn_auth_key');
 			$this->settings['debug'] = get_site_option('fbn_debug');
+			$this->settings['fbn_title_prefix'] = get_site_option('fbn_title_prefix');
 		}
 		// network or blog settings
 		elseif ( $this->settings['force_network_settings'] == '1' ) {
 			if( get_blog_option( $blog_id, 'fbn_use_network_settings' ) == '1' ) {
+				$this->settings['debug'] = get_site_option('fbn_debug');
 				$this->settings['api_url'] = get_site_option('fbn_api_url');
 				$this->settings['auth_key'] = get_site_option('fbn_auth_key');
-				$this->settings['debug'] = get_site_option('fbn_debug');
 				$this->settings['fbn_title_prefix'] = get_site_option('fbn_title_prefix');
 			} else {
-				$this->settings['debug'] = get_site_option( $blog_id, 'fbn_debug');
+				$this->settings['debug'] = get_blog_option( $blog_id, 'fbn_debug');
 				$this->settings['auth_key'] = get_blog_option( $blog_id, 'fbn_auth_key' );
 				$this->settings['api_url'] = get_blog_option( $blog_id, 'fbn_api_url' );
+				$this->settings['fbn_title_prefix'] = get_blog_option( $blog_id, 'fbn_title_prefix');
 			}
 		}
 		// blog settings
 		elseif ( $this->settings['force_network_settings'] == '0' ) {
-			$this->settings['debug'] = get_site_option( $blog_id, 'fbn_debug');
+			$this->settings['debug'] = get_blog_option( $blog_id, 'fbn_debug');
 			$this->settings['auth_key'] = get_blog_option( $blog_id, 'fbn_auth_key' );
 			$this->settings['api_url'] = get_blog_option( $blog_id, 'fbn_api_url' );
-			$this->settings['fbn_title_prefix'] = get_site_option('fbn_title_prefix');
+			$this->settings['fbn_title_prefix'] = get_blog_option( $blog_id, 'fbn_title_prefix');
 		}
 	}
 
