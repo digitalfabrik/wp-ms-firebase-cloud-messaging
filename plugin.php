@@ -66,12 +66,14 @@ function firebase_notifications_registration() {
 			add_blog_option( $blog->blog_id, $key, $value );
 		}
 	}
+	$fcmdb = New FirebaseNotificationsDatabase();
+	$fcmdb->install_database();
 }
 register_activation_hook( __FILE__, 'firebase_notifications_registration' );
 
 add_action( 'wpmu_new_blog', function( $blog_id, $user_id, $domain, $path, $site_id, $meta ) {
 	$fcmdb = New FirebaseNotificationsDatabase();
 	$fcmdb->new_blog( $blog_id );
-}, 10, 6 ); ?>
+}, 10, 6 );
 
 ?>

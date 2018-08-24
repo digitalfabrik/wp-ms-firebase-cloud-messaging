@@ -14,12 +14,13 @@ class FirebaseNotificationsDatabase {
         global $wpdb;
         $all_blogs = get_sites();
         foreach ( $all_blogs as $blog ) {
+            file_put_contents( "fcmdb.log", "Creating fcm table ".$blog->blog_id, FILE_APPEND );
             if( "1" === $blog->blog_id ) {
                 $table_name = $wpdb->base_prefix . "fcm_messages";
             } else {
                 $table_name = $wpdb->base_prefix . $blog->blog_id . "_" . "fcm_messages";
             }
-            if ( create_table_v_2_0_mu( $table_name ) ) {
+            if ( self::create_table_v_2_0_mu( $table_name ) ) {
                 $this->last_status = true;
             } else {
                 $this->last_status = new WP_Error( 'Cannot create database table', $query );
@@ -46,6 +47,7 @@ class FirebaseNotificationsDatabase {
                     `timestamp` TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
                     PRIMARY KEY (`id`)
                 ) $charset_collate;";
+        file_put_contents( "fcmdb.log", $sql, FILE_APPEND );
         return $wpdb->query( $sql );
     }
 
@@ -95,8 +97,11 @@ class FirebaseNotificationsDatabase {
                 // Upgrade from version 1.0 or new installation on multisite
                 add_site_option( 'fbn_db_version', '2.0');
                 self::create_tables_v_2_0_mu();
+            } elseif( '2.0' == $version ) {
+                // do nothing
             } else {
-                $this->last_status = WP_Error( 'Unknown WP FCM database version.', $version );
+                throw new Exception( 'Unknown WP FCM database version: ' . $version );
+                $this->last_status = false;
                 return $this->last_status;
             }
         } else {
@@ -105,8 +110,11 @@ class FirebaseNotificationsDatabase {
                 // Upgrade from version 1.0 or new installation for single blog
                 add_option( 'fbn_db_version', '2.0');
                 self::create_tables_v_2_0();
+            } elseif( '2.0' == $version ) {
+                // do nothing
             } else {
-                $this->last_status = WP_Error( 'Unknown WP FCM database version.', $version );
+                throw new Exception( 'Unknown WP FCM database version: ' . $version );
+                $this->last_status = false;
                 return $this->last_status;
             }
         }

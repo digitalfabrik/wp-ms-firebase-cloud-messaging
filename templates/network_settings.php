@@ -45,3 +45,7 @@
 	</table>
 	<button><?php echo __('Save'); ?></button>
 </form>
+<?php
+if( $settings['debug'] == '1' ) {
+	echo "<p>Database Version: ".get_site_option( 'fbn_db_version' )."</p>";
+}
