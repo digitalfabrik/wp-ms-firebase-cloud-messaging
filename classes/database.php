@@ -135,8 +135,8 @@ class FirebaseNotificationsDatabase {
             'limit' => False
         );
         $args = wp_parse_args( $args, $defaults );
-        $query = "SELEC * FROM " . $wpdb->prefix . "fcm_messages ";
-        $query .= "ORDER BY " . $args['orderby'] . " " . $args['order'] ( $args['limit'] != False ? " Limit " . $args['limit'] : "");
+        $query = "SELECT * FROM " . $wpdb->prefix . "fcm_messages ";
+        $query .= "ORDER BY " . $args['orderby'] . " " . $args['order'] . ( $args['limit'] != False ? " Limit " . $args['limit'] : "");
         if($results = $wpdb->get_results( $query )) {
             $this->last_status = true;
         } else {
@@ -190,9 +190,8 @@ class FirebaseNotificationsDatabase {
         $messages = $fcmdb->get_messages( $args );
         $count = 1;
         foreach( $messages as $message ){
-            $array = json_decode( $message, true );
-            if( $array['data']['language_code'] == $lang ) {
-                $result[] = $array;
+            if( $message['request']['data']['language_code'] == $lang ) {
+                $result[] = $message;
             }
             $count ++;
             if( $count === $amount ) {
