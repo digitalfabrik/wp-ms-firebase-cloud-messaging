@@ -1,13 +1,3 @@
-#deflang:target > a {
-	border-bottom: 0.2em solid #F00;
-}
-#deflang:not(:target) > a {
-	border-bottom: 0.2em solid #A00;
-}
-div.tabs > div:target > a {
-	border-bottom: 0.2em solid #000;
-}
-
 .pn-title {
 	width: 300px;
 }
@@ -19,40 +9,50 @@ div.tabs > div:target > a {
 }
 
 .pn-tabs {
-position: relative;   
-min-height: 100px;
-clear: both;
-margin: 25px 0;
+	position: relative;
+	min-height: 100px;
+	clear: both;
+	margin: 25px 0;
 }
+
 .pn-tab {
-float: left;
+	float: left;
 }
+
 .pn-tab label {
-background: #eee; 
-padding: 10px; 
-border: 1px solid #ccc; 
-margin-left: -1px; 
-position: relative;
-left: 1px; 
+	background: #eee;
+	padding: 10px;
+	border: 1px solid #ccc;
+	margin-left: -1px;
+	position: relative;
+	left: 1px;
 }
+
 .pn-tab [type=radio] {
-display: none;   
+	display: none;
 }
+
 .pn-content {
-position: absolute;
-top: 28px;
-left: 0;
-background: white;
-padding: 20px;
-border: 1px solid #ccc; 
-display:none;
-min-width:700px;
+	position: absolute;
+	top: 28px;
+	left: 0;
+	background: white;
+	padding: 20px;
+	border: 1px solid #ccc;
+	display:none;
+	min-width:700px;
 }
+
 [type=radio]:checked ~ label {
-background: white;
-border-bottom: 1px solid white;
-z-index: 2;
+	background: white;
+	border-bottom: 1px solid white;
+	z-index: 2;
 }
+
+.pn-main-language {
+	font: underline;
+}
+
 [type=radio]:checked ~ label ~ .pn-content {
-display:block;
+	display:block;
 }

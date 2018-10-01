@@ -45,10 +45,9 @@ function write_firebase_notification_form() {
 		$tabs .= "
             <div class='pn-tab'>
                 <input type='radio' id='tab-".$value['code']."' name='tab-group-1'" . ($value['active'] == "1" ? " checked" : "" ) . ">
-                <label for='tab-".$value['code']."'>".$value['translated_name']."</label>
+                <label class='" . ( $value['active'] == "1" ? "pn-main" : "" ) ."' for='tab-".$value['code']."'>".$value['translated_name']."</label>
                 <div class='pn-clear'></div>
                 <div class='pn-content'>
-                    Fooooo
                     <table class='tabtable'>
                         <tr><td>".__('Title', 'firebase-notifications')."</td><td><input name='pn-title_".$value['code']."' type='text' class='pn-title' maxlength='50'></td></tr>
                         <tr><td>".__('Message', 'firebase-notifications')."</td><td><textarea name='pn-message_".$value['code']."' class='pn-message' maxlength='140'></textarea></td></tr>
