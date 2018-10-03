@@ -1,5 +1,7 @@
 <?php
-
+/**
+ * Save settings for single blog
+ */
 function firebase_notification_settings () {
 	if ( wp_verify_nonce( $_POST['_wpnonce'], 'ig-fb-settings-nonce' ) && current_user_can('manage_options') ) {
 		$blog_id = get_current_blog_id();
@@ -14,6 +16,9 @@ function firebase_notification_settings () {
 	firebase_notification_settings_form();
 }
 
+/**
+ * Generate settings page for single blog
+ */
 function firebase_notification_settings_form() {
 	$blog_id = get_current_blog_id();
 	$settings['auth_key'] = get_blog_option( $blog_id, 'fbn_auth_key' );
@@ -32,6 +37,9 @@ function firebase_notification_settings_form() {
 	require_once('templates/settings.php');
 }
 
+/**
+ * Save settings for network
+ */
 function firebase_notification_network_settings () {
 	if ( wp_verify_nonce( $_POST['_wpnonce'], 'ig-fb-networksettings-nonce' ) && current_user_can('manage_network_options') ) {
 		update_site_option( 'fbn_auth_key', $_POST['fbn_auth_key'] );
@@ -44,6 +52,9 @@ function firebase_notification_network_settings () {
 	firebase_notification_network_settings_form();
 }
 
+/**
+ * Generate settings page for network
+ */
 function firebase_notification_network_settings_form() {
 	$settings['auth_key'] = get_site_option( 'fbn_auth_key' );
 	$settings['api_url'] = get_site_option( 'fbn_api_url' );

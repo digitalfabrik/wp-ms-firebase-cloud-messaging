@@ -51,8 +51,8 @@ function write_firebase_notification_form() {
                     <table class='tabtable'>
                         <tr><td>".__('Title', 'firebase-notifications')."</td><td><input name='pn-title_".$value['code']."' type='text' class='pn-title' maxlength='50'></td></tr>
                         <tr><td>".__('Message', 'firebase-notifications')."</td><td><textarea name='pn-message_".$value['code']."' class='pn-message' maxlength='140'></textarea></td></tr>
-                        <tr><td colspan='2'>".fcm_sent_list_html( $value['code'] )."</tr>
-                    </table>
+					</table>
+					" . fcm_sent_list_html( $value['code'] ) . "
                 </div> 
 			</div>
 ";
