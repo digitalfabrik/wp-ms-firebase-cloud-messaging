@@ -31,9 +31,15 @@ function fcm_sent_list_html( $lang ) {
 	$fcmdb = New FirebaseNotificationsDatabase();
 	$messages = $fcmdb->messages_by_language( $lang , $amount = 10 );
 	$foo = "<table width='100%' style='border:1px solid #cccccc;'>";
-	$foo .= "<tr><th>" . __("Date") . "</th><th>" . __("Title") . "</tr>";
+	$foo .= "<tr><th>" . __('Status') . "</th><th>" . __("Date") . "</th><th>" . __("Title") . "</tr>";
 	foreach( $messages as $message ){
-		$foo .= "<tr><td>" . $message['timestamp'] . "</td><td>" . $message['request']['notification']['title'] . "</td></tr>";
+		$testing = @json_decode($message['returned_message']);
+		if ( $testing === null ) {
+			$bullet_color = "#f00";
+		} else {
+			$bullet_color = "#0f0";
+		}
+		$foo .= "<tr><td style='color:$bullet_color;'>&#11044;</td><td>" . $message['timestamp'] . "</td><td>" . $message['request']['notification']['title'] . "</td></tr>";
 	}
 	$foo .= "</table>";
 	return $foo;

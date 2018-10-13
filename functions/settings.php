@@ -34,7 +34,7 @@ function firebase_notification_settings_form() {
 		$network_settings = __('This blog is allowed to use the network wide Firebase Cloud Messaging settings.', 'firebase-notifications');
 	elseif ( $settings['force_network_settings'] == '2' )
 		$network_settings = __('This blog must use the network wide Firebase Cloud Messaging settings.', 'firebase-notifications');
-	require_once('templates/settings.php');
+	require_once( __DIR__ . '/../templates/settings.php');
 }
 
 /**
@@ -62,7 +62,7 @@ function firebase_notification_network_settings_form() {
 	$settings['per_blog_topic'] = get_site_option( 'fbn_per_blog_topic' );
 	$settings['groups'] = get_site_option( 'fbn_groups' );
 	$settings['debug'] = get_site_option( 'fbn_debug' );
-	require_once('templates/network_settings.php');
+	require_once( __DIR__ . '/../templates/network_settings.php');
 }
 
 ?>

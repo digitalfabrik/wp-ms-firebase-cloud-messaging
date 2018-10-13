@@ -63,3 +63,6 @@ msgstr "Nachrichten versendet."
 
 msgid "Old Messages"
 msgstr "Alte Nachrichten"
+
+msgid "Status"
+msgstr "Status"
