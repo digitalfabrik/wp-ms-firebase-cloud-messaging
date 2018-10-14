@@ -33,8 +33,7 @@ function fcm_sent_list_html( $lang ) {
 	$foo = "<table width='100%' style='border:1px solid #cccccc;'>";
 	$foo .= "<tr><th>" . __('Status') . "</th><th>" . __("Date") . "</th><th>" . __("Title") . "</tr>";
 	foreach( $messages as $message ){
-		$testing = @json_decode($message['returned_message']);
-		if ( $testing === null ) {
+		if ( $message['answer'] === null ) {
 			$bullet_color = "#f00";
 		} else {
 			$bullet_color = "#0f0";
