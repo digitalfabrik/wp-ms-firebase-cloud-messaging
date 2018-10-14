@@ -66,3 +66,6 @@ msgstr "Alte Nachrichten"
 
 msgid "Status"
 msgstr "Status"
+
+msgid "Characters left"
+msgstr "Verbleibende Zeichen"

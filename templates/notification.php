@@ -45,14 +45,22 @@ function write_firebase_notification_form() {
 		$tabs .= "
             <div class='pn-tab'>
                 <input type='radio' id='tab-".$value['code']."' name='tab-group-1'" . ($value['active'] == "1" ? " checked" : "" ) . ">
-                <label class='" . ( $value['active'] == "1" ? "pn-main-language" : "" ) ."' for='tab-".$value['code']."'>".$value['translated_name']."</label>
+                <label class='" . ( $value['active'] == "1" ? "pn-main-language" : "" ) ."' for='tab-" . $value['code'] . "'>" . $value['translated_name'] . "</label>
                 <div class='pn-clear'></div>
-                <div class='pn-content'>
-                    <table class='tabtable'>
-                        <tr><td>" . __('Title', 'firebase-notifications') . "</td><td><input name='pn-title_".$value['code'] . "' type='text' class='pn-title' maxlength='50'></td></tr>
-						<tr><td>" . __('Message', 'firebase-notifications') . "</td><td><textarea name='pn-message_".$value['code'] . "' class='pn-message' maxlength='140'></textarea></td></tr>
-						<tr><td>" . __('Old Messages', 'firebase-notifications') . "</td><td>" . fcm_sent_list_html( $value['code'] ) . "</td></tr>
+				<div class='pn-content'>
+					<table class='tabtable'>
+						<tr><td>" . __('Title', 'firebase-notifications') . "</td><td><input id='pn-title_" . $value['code'] . "' name='pn-title_" . $value['code'] . "' type='text' class='pn-title' maxlength='50'></td><td id='title-length_" . $value['code'] . "'></td></tr>
+						<tr><td>" . __('Message', 'firebase-notifications') . "</td><td><textarea id='pn-message_" . $value['code'] . "' name='pn-message_" . $value['code'] . "' class='pn-message' maxlength='250'></textarea></td><td id='message-length_" . $value['code'] . "'></td></tr>
+						<tr><td>" . __('Old Messages', 'firebase-notifications') . "</td><td>" . fcm_sent_list_html( $value['code'] ) . "</td><td></td></tr>
 					</table>
+					<script>
+						jQuery(\"#pn-title_" . $value['code'] . "\").keyup(function(){
+							jQuery(\"#title-length_" . $value['code'] . "\").text(\"" . __("Characters left", 'firebase-notifications') . ": \" + (50 - jQuery(this).val().length));
+						});
+						jQuery(\"#pn-message_" . $value['code'] . "\").keyup(function(){
+							jQuery(\"#message-length_" . $value['code'] . "\").text(\"" . __("Characters left", 'firebase-notifications') . ": \" + (250 - jQuery(this).val().length));
+						});
+					</script>
                 </div> 
 			</div>
 ";
