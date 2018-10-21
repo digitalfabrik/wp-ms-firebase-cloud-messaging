@@ -133,12 +133,12 @@ class FirebaseNotificationsDatabase {
             'order' => 'DESC',
             'orderby' => 'timestamp',
             'limit' => False,
-            'timestamp' = 0
+            'timestamp' => 0
         );
         $args = wp_parse_args( $args, $defaults );
         $query = "SELECT * FROM " . $wpdb->prefix . "fcm_messages ";
-        if ( $timestamp != 0 ) {
-            $query .= "WHERE timestamp >= " . $args['timestamp'] . " ";
+        if ( $args['timestamp'] != 0 ) {
+            $query .= "WHERE timestamp >= '" . $args['timestamp'] . "' ";
         }
         $query .= "ORDER BY " . $args['orderby'] . " " . $args['order'] . ( $args['limit'] != False ? " Limit " . $args['limit'] : "");
         if($results = $wpdb->get_results( $query )) {
