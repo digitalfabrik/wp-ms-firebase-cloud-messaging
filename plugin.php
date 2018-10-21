@@ -2,7 +2,7 @@
 /**
  * Plugin Name: FCM Notifications
  * Description: Sending FCM Messages to Smartphones with WPML support
- * Version: 2.0
+ * Version: 2.1
  * Author: Sven Seeberg
  * Author URI: https://github.com/sven15
  * License: MIT
